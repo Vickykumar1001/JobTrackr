@@ -2,6 +2,10 @@
 
 Welcome to the Jobster repository! This repository contains the source code for the Jobster project.
 
+## Demo
+
+![Jobster Screenshot](demo.gif)
+
 ## Introduction
 
 Jobster is a job management system leveraging the MERN stack (MongoDB, Express.js, React.js, Node.js) to monitor position, company, and status updates, featuring an intuitive UI, advanced search, and sorting functions, optimizing the job search and application follow-up process.
