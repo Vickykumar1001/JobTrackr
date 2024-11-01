@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 
 const JobSchema = new mongoose.Schema(
   {
@@ -14,8 +14,8 @@ const JobSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ['interview', 'declined', 'pending'],
-      default: 'pending',
+      enum: ['Applied', 'Round-1', 'Round-2', 'Interview', 'Declined',],
+      default: 'Applied',
     },
     createdBy: {
       type: mongoose.Types.ObjectId,
@@ -24,16 +24,55 @@ const JobSchema = new mongoose.Schema(
     },
     jobType: {
       type: String,
-      enum: ['full-time', 'part-time', 'remote', 'internship'],
-      default: 'full-time',
+      enum: ['Full-time', 'Part-time', 'Remote', 'Internship', 'Freelance'],
+      default: 'Full-time',
     },
     jobLocation: {
       type: String,
-      default: 'my city',
+      default: 'My city',
       required: true,
     },
+    applicationDate: {
+      type: Date,
+      default: Date.now,
+    },
+    notes: {
+      type: String,
+      maxlength: 500,
+    },
+    salaryRange: {
+      type: String,
+      maxlength: 50,
+    },
+    contact: {
+      name: {
+        type: String,
+        maxlength: 100,
+      },
+      email: {
+        type: String,
+        match: /.+\@.+\..+/,
+      },
+      phone: {
+        type: String,
+        maxlength: 20,
+      },
+    },
+    applicationSource: {
+      type: String,
+      maxlength: 50,
+    },
+    interviewRounds: [
+      {
+        date: Date,
+        feedback: {
+          type: String,
+          maxlength: 500,
+        }
+      },
+    ]
   },
   { timestamps: true }
-)
+);
 
-module.exports = mongoose.model('Job', JobSchema)
+module.exports = mongoose.model('Job', JobSchema);
