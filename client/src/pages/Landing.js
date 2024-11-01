@@ -12,18 +12,18 @@ const Landing = () => {
         {/* info */}
         <div className='info'>
           <h1>
-            job <span>tracking</span> app
+            Welcome to <span>JobTrackr</span>
           </h1>
           <p>
-            Crucifix narwhal street art asymmetrical, humblebrag tote bag pop-up
-            fixie raclette taxidermy craft beer. Brunch bitters synth, VHS
-            crucifix heirloom meggings bicycle rights.
+            Stay organized in your job search with JobTrackr – your personal job application manager.
+            Track applications, set reminders, and make the job hunt easier. Get started today and stay on
+            top of every opportunity!
           </p>
           <Link to='/register' className='btn btn-hero'>
             Login/Register
           </Link>
         </div>
-        <img src={main} alt='job hunt' className='img main-img' />
+        <img src={main} alt='Job Tracking Dashboard' className='img main-img' />
       </div>
     </Wrapper>
   );

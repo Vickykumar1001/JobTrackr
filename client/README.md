@@ -1,6 +1,6 @@
-# Jobster
+# JobTrackr
 
-Project in Action - [Jobster](https://redux-toolkit-jobster.netlify.app/)
+Project in Action - [JobTrackr](https://redux-toolkit-JobTrackr.netlify.app/)
 
 #### React Course
 
@@ -99,7 +99,7 @@ const Landing = () => {
   return (
     <main>
       <nav>
-        <img src={logo} alt='jobster logo' className='logo' />
+        <img src={logo} alt='JobTrackr logo' className='logo' />
       </nav>
       <div className='container page'>
         {/* info */}
