@@ -4,10 +4,10 @@ import { getAllJobsThunk, showStatsThunk } from './allJobsThunk';
 
 const initialFiltersState = {
   search: '',
-  searchStatus: 'all',
-  searchType: 'all',
-  sort: 'latest',
-  sortOptions: ['latest', 'oldest', 'a-z', 'z-a'],
+  searchStatus: 'All',
+  searchType: 'All',
+  sort: 'Latest',
+  sortOptions: ['Latest', 'Oldest', 'A-Z', 'Z-A'],
 };
 
 const initialState = {

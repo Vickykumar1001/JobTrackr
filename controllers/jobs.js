@@ -16,10 +16,10 @@ const getAllJobs = async (req, res) => {
   }
   // add stuff based on condition
 
-  if (status && status !== 'all') {
+  if (status && status !== 'All') {
     queryObject.status = status;
   }
-  if (jobType && jobType !== 'all') {
+  if (jobType && jobType !== 'All') {
     queryObject.jobType = jobType;
   }
 
@@ -29,16 +29,16 @@ const getAllJobs = async (req, res) => {
 
   // chain sort conditions
 
-  if (sort === 'latest') {
+  if (sort === 'Latest') {
     result = result.sort('-createdAt');
   }
-  if (sort === 'oldest') {
+  if (sort === 'Oldest') {
     result = result.sort('createdAt');
   }
-  if (sort === 'a-z') {
+  if (sort === 'A-Z') {
     result = result.sort('position');
   }
-  if (sort === 'z-a') {
+  if (sort === 'Z-A') {
     result = result.sort('-position');
   }
 
@@ -115,7 +115,7 @@ const deleteJob = async (req, res) => {
   }
   res.status(StatusCodes.OK).send()
 }
-const showStats = async(req, res) => {
+const showStats = async (req, res) => {
 
   let stats = await Job.aggregate([
     { $match: { createdBy: mongoose.Types.ObjectId(req.user.userId) } },
@@ -161,7 +161,7 @@ const showStats = async(req, res) => {
 
   res
     .status(StatusCodes.OK)
-    .json({ defaultStats, monthlyApplications});
+    .json({ defaultStats, monthlyApplications });
 };
 module.exports = {
   createJob,
