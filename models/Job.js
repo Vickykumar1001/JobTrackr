@@ -35,7 +35,7 @@ const JobSchema = new mongoose.Schema(
       type: String,
       maxlength: 500,
     },
-    salaryRange: {
+    salary: {
       type: String,
       maxlength: 50,
     },
@@ -43,7 +43,7 @@ const JobSchema = new mongoose.Schema(
       type: String,
       match: /.+\@.+\..+/,
     },
-    applicationSource: {
+    source: {
       type: String,
       maxlength: 50,
     }

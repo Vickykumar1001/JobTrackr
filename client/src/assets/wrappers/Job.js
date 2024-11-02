@@ -84,9 +84,12 @@ const Wrapper = styled.article`
     margin-top: 1rem;
   }
   .edit-btn,
-  .delete-btn {
+  .delete-btn,
+  .visit-btn {
     letter-spacing: var(--letterSpacing);
     cursor: pointer;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
     height: 30px;
   }
   .edit-btn {
