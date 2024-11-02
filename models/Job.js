@@ -30,11 +30,6 @@ const JobSchema = new mongoose.Schema(
     jobLocation: {
       type: String,
       default: 'My city',
-      required: true,
-    },
-    applicationDate: {
-      type: Date,
-      default: Date.now,
     },
     notes: {
       type: String,
@@ -44,33 +39,14 @@ const JobSchema = new mongoose.Schema(
       type: String,
       maxlength: 50,
     },
-    contact: {
-      name: {
-        type: String,
-        maxlength: 100,
-      },
-      email: {
-        type: String,
-        match: /.+\@.+\..+/,
-      },
-      phone: {
-        type: String,
-        maxlength: 20,
-      },
+    email: {
+      type: String,
+      match: /.+\@.+\..+/,
     },
     applicationSource: {
       type: String,
       maxlength: 50,
-    },
-    interviewRounds: [
-      {
-        date: Date,
-        feedback: {
-          type: String,
-          maxlength: 500,
-        }
-      },
-    ]
+    }
   },
   { timestamps: true }
 );
