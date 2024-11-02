@@ -36,7 +36,10 @@ const UserSchema = new mongoose.Schema({
     default: 'my city',
   },
 })
-
+UserSchema.pre('save', function (next) {
+  this.email = this.email.toLowerCase();
+  next();
+});
 UserSchema.pre('save', async function () {
   if (!this.isModified('password')) return;
   const salt = await bcrypt.genSalt(10)
