@@ -116,53 +116,71 @@ const deleteJob = async (req, res) => {
   res.status(StatusCodes.OK).send()
 }
 const showStats = async (req, res) => {
-
+  // Total applications and status counts
   let stats = await Job.aggregate([
     { $match: { createdBy: mongoose.Types.ObjectId(req.user.userId) } },
-    { $group: { _id: '$status', count: { $sum: 1 } } },
+    {
+      $group: {
+        _id: '$status', // Group by the status field
+        count: { $sum: 1 } // Count the number of applications in each status
+      }
+    }
   ]);
+
+  // Convert stats array to an object for easier access
   stats = stats.reduce((acc, curr) => {
     const { _id: title, count } = curr;
     acc[title] = count;
     return acc;
   }, {});
-
+  // Create a defaultStats object with counts for each status
   const defaultStats = {
-    pending: stats.pending || 0,
-    interview: stats.interview || 0,
-    declined: stats.declined || 0,
+    totalApplications: (stats.Applied || 0) + (stats['Round-1'] || 0) + (stats['Round-2'] || 0) + (stats.Interview || 0) + (stats.Declined || 0) + (stats.Offered || 0),
+    pending: stats.Applied || 0,
+    round: stats['Round-1'] + stats['Round-2'] || 0,
+    interview: stats.Interview || 0,
+    declined: stats.Declined || 0,
+    offered: stats.Offered || 0,
   };
 
-  let monthlyApplications = await Job.aggregate([
-    { $match: { createdBy: mongoose.Types.ObjectId(req.user.userId) } },
-    {
-      $group: {
-        _id: { year: { $year: '$createdAt' }, month: { $month: '$createdAt' } },
-        count: { $sum: 1 },
+  // Get monthly applications
+  try {
+    // Fetch monthly application stats for the current user
+    let monthlyApplications = await Job.aggregate([
+      { $match: { createdBy: mongoose.Types.ObjectId(req.user.userId) } },
+      {
+        $group: {
+          _id: { year: { $year: '$createdAt' }, month: { $month: '$createdAt' } },
+          count: { $sum: 1 },
+        }
       },
-    },
-    { $sort: { '_id.year': -1, '_id.month': -1 } },
-    { $limit: 6 },
-  ]);
+      { $sort: { '_id.year': -1, '_id.month': -1 } },
+      { $limit: 10 },
+    ]);
 
-  monthlyApplications = monthlyApplications
-    .map((item) => {
-      const {
-        _id: { year, month },
-        count,
-      } = item;
-      const date = moment()
-        .month(month - 1)
+    // Map and format the aggregated results for better readability
+    monthlyApplications = monthlyApplications.map(({ _id: { year, month }, count }) => {
+      const formattedDate = moment()
+        .month(month - 1)  // moment months are zero-indexed
         .year(year)
-        .format('MMM Y');
-      return { date, count };
-    })
-    .reverse();
+        .format('MMM YYYY'); // Use 'MMM YYYY' for a clearer year format
+      return { date: formattedDate, count };
+    }).reverse(); // Reverse to have chronological order
 
-  res
-    .status(StatusCodes.OK)
-    .json({ defaultStats, monthlyApplications });
+    // Handle cases where there are no applications for a month
+    const allMonths = Array.from({ length: 12 }, (_, i) => moment().subtract(i, 'months').format('MMM YYYY'));
+    const monthlyData = allMonths.map(month => {
+      const found = monthlyApplications.find(app => app.date === month);
+      return found ? found : { date: month, count: 0 }; // Default to 0 if no applications
+    }).reverse();
+
+    res.status(StatusCodes.OK).json({ defaultStats, monthlyApplications: monthlyData });
+  } catch (error) {
+    // Handle errors appropriately
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: 'An error occurred while fetching stats' });
+  }
 };
+
 module.exports = {
   createJob,
   deleteJob,

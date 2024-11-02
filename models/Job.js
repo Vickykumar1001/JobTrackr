@@ -14,7 +14,7 @@ const JobSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ['Applied', 'Round-1', 'Round-2', 'Interview', 'Declined',],
+      enum: ['Applied', 'Round-1', 'Round-2', 'Interview', 'Declined', 'Offered'],
       default: 'Applied',
     },
     createdBy: {
@@ -45,7 +45,7 @@ const JobSchema = new mongoose.Schema(
     },
     source: {
       type: String,
-      maxlength: 50,
+      maxlength: 100,
     }
   },
   { timestamps: true }
