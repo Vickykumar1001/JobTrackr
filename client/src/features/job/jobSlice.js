@@ -4,13 +4,17 @@ import { getUserFromLocalStorage } from '../../utils/localStorage';
 import { createJobThunk, deleteJobThunk, editJobThunk } from './jobThunk';
 const initialState = {
   isLoading: false,
-  position: '',
   company: '',
+  position: '',
   jobLocation: '',
-  jobTypeOptions: ['Full-time', 'Part-time', 'Remote', 'Internship', 'Freelance'],
-  jobType: 'Full-time',
   statusOptions: ['Applied', 'Round-1', 'Round-2', 'Interview', 'Declined'],
   status: 'Applied',
+  jobTypeOptions: ['Full-time', 'Part-time', 'Remote', 'Internship', 'Freelance'],
+  jobType: 'Full-time',
+  salary: '',
+  source: '',
+  email: '',
+  notes: '',
   isEditing: false,
   editJobId: '',
 };

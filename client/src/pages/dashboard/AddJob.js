@@ -15,10 +15,14 @@ const AddJob = () => {
     position,
     company,
     jobLocation,
-    jobType,
-    jobTypeOptions,
     status,
     statusOptions,
+    jobType,
+    jobTypeOptions,
+    salary,
+    source,
+    email,
+    notes,
     isEditing,
     editJobId,
   } = useSelector((store) => store.job);
@@ -35,12 +39,12 @@ const AddJob = () => {
       dispatch(
         editJob({
           jobId: editJobId,
-          job: { position, company, jobLocation, jobType, status },
+          job: { position, company, jobLocation, jobType, status, salary, source, email, notes, },
         })
       );
       return;
     }
-    dispatch(createJob({ position, company, jobLocation, jobType, status }));
+    dispatch(createJob({ position, company, jobLocation, jobType, status, salary, source, email, notes, }));
   };
 
   const handleJobInput = (e) => {
@@ -65,18 +69,20 @@ const AddJob = () => {
       <form className='form'>
         <h3>{isEditing ? 'edit job' : 'add job'}</h3>
         <div className='form-center'>
-          {/* position */}
-          <FormRow
-            type='text'
-            name='position'
-            value={position}
-            handleChange={handleJobInput}
-          />
           {/* company */}
           <FormRow
             type='text'
             name='company'
             value={company}
+            placeholder="Enter company name"
+            handleChange={handleJobInput}
+          />
+          {/* position */}
+          <FormRow
+            type='text'
+            name='position'
+            value={position}
+            placeholder="Enter position title"
             handleChange={handleJobInput}
           />
           {/* jobLocation */}
@@ -85,6 +91,7 @@ const AddJob = () => {
             name='jobLocation'
             labelText='job location'
             value={jobLocation}
+            placeholder='Enter job location'
             handleChange={handleJobInput}
           />
           {/* status */}
@@ -101,6 +108,42 @@ const AddJob = () => {
             value={jobType}
             handleChange={handleJobInput}
             list={jobTypeOptions}
+          />
+          {/* salary range */}
+          <FormRow
+            type='text'
+            name='salary'
+            labelText='salary range'
+            placeholder='eg. 7LPA - 10LPA'
+            value={salary}
+            handleChange={handleJobInput}
+          />
+          {/* application source */}
+          <FormRow
+            type='text'
+            name='source'
+            value={source}
+            labelText='Job Application Link'
+            placeholder="Paste your application link here"
+            handleChange={handleJobInput}
+          />
+          {/* email */}
+          <FormRow
+            type='text'
+            name='email'
+            value={email}
+            labelText='Email Address'
+            placeholder="If Emailed any HR"
+            handleChange={handleJobInput}
+          />
+          {/* notes */}
+          <FormRow
+            type='text'
+            name='notes'
+            labelText='Notes'
+            value={notes}
+            placeholder="Enter additional information (optional)"
+            handleChange={handleJobInput}
           />
           <div className='btn-container'>
             <button
