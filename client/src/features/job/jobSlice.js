@@ -7,7 +7,7 @@ const initialState = {
   company: '',
   position: '',
   jobLocation: '',
-  statusOptions: ['Applied', 'Round-1', 'Round-2', 'Interview', 'Declined'],
+  statusOptions: ['Applied', 'Round-1', 'Round-2', 'Interview', 'Declined', 'Offered'],
   status: 'Applied',
   jobTypeOptions: ['Full-time', 'Part-time', 'Remote', 'Internship', 'Freelance'],
   jobType: 'Full-time',

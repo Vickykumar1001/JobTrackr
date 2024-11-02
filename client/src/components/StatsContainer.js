@@ -1,5 +1,5 @@
 import StatItem from './StatItem';
-import { FaSuitcaseRolling, FaCalendarCheck, FaBug } from 'react-icons/fa';
+import { FaBriefcase, FaClipboardCheck, FaCalendarAlt, FaUserCheck, FaTimesCircle, FaCheckCircle } from 'react-icons/fa';
 import Wrapper from '../assets/wrappers/StatsContainer';
 import { useSelector } from 'react-redux';
 
@@ -8,27 +8,49 @@ const StatsContainer = () => {
 
   const defaultStats = [
     {
-      title: 'pending applications',
+      title: 'Total Applications',
+      count: stats.totalApplications || 0,
+      icon: <FaBriefcase />,
+      color: '#2c3e50',
+      bcg: '#ecf0f1',
+    },
+    {
+      title: 'Pending Applications',
       count: stats.pending || 0,
-      icon: <FaSuitcaseRolling />,
-      color: '#e9b949',
-      bcg: '#fcefc7',
+      icon: <FaClipboardCheck />,
+      color: '#f1c40f',
+      bcg: '#f9e79f',
     },
     {
-      title: 'interviews scheduled',
+      title: 'Interviews Scheduled',
       count: stats.interview || 0,
-      icon: <FaCalendarCheck />,
-      color: '#647acb',
-      bcg: '#e0e8f9',
+      icon: <FaCalendarAlt />,
+      color: '#2980b9',
+      bcg: '#d0e9f9',
     },
     {
-      title: 'jobs declined',
+      title: 'Round 1 & 2',
+      count: stats.round || 0,
+      icon: <FaUserCheck />,
+      color: '#e67e22',
+      bcg: '#f9c6a6',
+    },
+    {
+      title: 'Jobs Offered',
+      count: stats.offered || 0,
+      icon: <FaCheckCircle />,
+      color: '#27ae60',
+      bcg: '#d5f5e3',
+    },
+    {
+      title: 'Jobs Declined',
       count: stats.declined || 0,
-      icon: <FaBug />,
-      color: '#d66a6a',
-      bcg: '#ffeeee',
+      icon: <FaTimesCircle />,
+      color: '#c0392b',
+      bcg: '#f8d7da',
     },
   ];
+
 
   return (
     <Wrapper>
