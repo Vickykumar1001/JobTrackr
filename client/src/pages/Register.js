@@ -4,7 +4,7 @@ import Wrapper from '../assets/wrappers/RegisterPage';
 import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginUser, registerUser } from '../features/user/userSlice';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 const initialState = {
   name: '',
@@ -15,10 +15,9 @@ const initialState = {
 
 function Register() {
   const [values, setValues] = useState(initialState);
-  const { user, isLoading } = useSelector((store) => store.user);
+  const { user, isLoading, verificationMessage } = useSelector((store) => store.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   const handleChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
@@ -46,59 +45,70 @@ function Register() {
     if (user) {
       setTimeout(() => {
         navigate('/');
-      }, 2000);
+      }, 500);
     }
   }, [user]);
   return (
     <Wrapper className='full-page'>
-      <form className='form' onSubmit={onSubmit}>
-        <Logo />
-        <h3>{values.isMember ? 'Login' : 'Register'}</h3>
-        {/* name field */}
-        {!values.isMember && (
+      {verificationMessage ? (
+        <div className="message-container">
+          <Logo />
+          <h3 className="message-title">Registration Successful</h3>
+          <p className="message-text">A verification email has been sent. Please verify your email to log in.</p>
+          <Link to='/register' onClick={() => verificationMessage = false} className='btn btn-primary'>
+            Go to Login
+          </Link>
+        </div>
+      ) : (
+        <form className='form' onSubmit={onSubmit}>
+          <Logo />
+          <h3>{values.isMember ? 'Login' : 'Register'}</h3>
+          {/* name field */}
+          {!values.isMember && (
+            <FormRow
+              type='text'
+              name='name'
+              value={values.name}
+              handleChange={handleChange}
+            />
+          )}
+          {/* email field */}
           <FormRow
-            type='text'
-            name='name'
-            value={values.name}
+            type='email'
+            name='email'
+            value={values.email}
             handleChange={handleChange}
           />
-        )}
-        {/* email field */}
-        <FormRow
-          type='email'
-          name='email'
-          value={values.email}
-          handleChange={handleChange}
-        />
-        {/* password field */}
-        <FormRow
-          type='password'
-          name='password'
-          value={values.password}
-          handleChange={handleChange}
-        />
-        <button type='submit' className='btn btn-block' disabled={isLoading}>
-          {isLoading ? 'loading...' : 'submit'}
-        </button>
-        <button
-          type='button'
-          className='btn btn-block btn-hipster'
-          disabled={isLoading}
-          onClick={() =>
-            dispatch(
-              loginUser({ email: 'testUser@test.com', password: 'secret' })
-            )
-          }
-        >
-          {isLoading ? 'loading...' : 'demo app'}
-        </button>
-        <p>
-          {values.isMember ? 'Not a member yet?' : 'Already a member?'}
-          <button type='button' onClick={toggleMember} className='member-btn'>
-            {values.isMember ? 'Register' : 'Login'}
+          {/* password field */}
+          <FormRow
+            type='password'
+            name='password'
+            value={values.password}
+            handleChange={handleChange}
+          />
+          <button type='submit' className='btn btn-block' disabled={isLoading}>
+            {isLoading ? 'loading...' : 'submit'}
           </button>
-        </p>
-      </form>
+          <button
+            type='button'
+            className='btn btn-block btn-hipster'
+            disabled={isLoading}
+            onClick={() =>
+              dispatch(
+                loginUser({ email: 'testUser@test.com', password: 'secret' })
+              )
+            }
+          >
+            {isLoading ? 'loading...' : 'demo app'}
+          </button>
+          <p>
+            {values.isMember ? 'Not a member yet?' : 'Already a member?'}
+            <button type='button' onClick={toggleMember} className='member-btn'>
+              {values.isMember ? 'Register' : 'Login'}
+            </button>
+          </p>
+        </form>
+      )}
     </Wrapper>
   );
 }
