@@ -16,6 +16,7 @@ const initialState = {
   isLoading: false,
   isSidebarOpen: false,
   user: getUserFromLocalStorage(),
+  verificationMessage: false,
 };
 
 export const registerUser = createAsyncThunk(
@@ -53,6 +54,8 @@ const userSlice = createSlice({
       if (payload) {
         toast.success(payload);
       }
+    }, resetVerificationMessage: (state) => {
+      state.verificationMessage = false;
     },
   },
   extraReducers: {
@@ -60,11 +63,10 @@ const userSlice = createSlice({
       state.isLoading = true;
     },
     [registerUser.fulfilled]: (state, { payload }) => {
-      const { user } = payload;
+      const { msg } = payload;
       state.isLoading = false;
-      state.user = user;
-      addUserToLocalStorage(user);
-      toast.success(`Hello There ${user.name}`);
+      state.verificationMessage = true;
+      toast.success(msg);
     },
     [registerUser.rejected]: (state, { payload }) => {
       state.isLoading = false;
@@ -106,5 +108,5 @@ const userSlice = createSlice({
   },
 });
 
-export const { toggleSidebar, logoutUser } = userSlice.actions;
+export const { toggleSidebar, logoutUser, resetVerificationMessage } = userSlice.actions;
 export default userSlice.reducer;
