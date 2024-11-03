@@ -16,7 +16,7 @@ const register = async (req, res) => {
   }
   const verificationToken = crypto.randomBytes(40).toString("hex");
   const user = await User.create({ name, email, password, location, verificationToken });
-  const origin = "https://jobdata.onrender.com/";
+  const origin = "https://jobdata.onrender.com";
   await sendVerificationEmail({
     name: user.name,
     email: user.email,
@@ -29,7 +29,6 @@ const register = async (req, res) => {
 }
 const verifyEmail = async (req, res) => {
   const { verificationToken, email } = req.body;
-  console.log(verificationToken, email);
   const user = await User.findOne({ email });
 
   if (!user) {
@@ -56,7 +55,6 @@ const login = async (req, res) => {
   }
 
   const user = await User.findOne({ email });
-  console.log('User found:', user); // Log user details to verify `isVerified` status
   if (!user) {
     throw new UnauthenticatedError('Invalid Credentials');
   }
@@ -67,7 +65,6 @@ const login = async (req, res) => {
   }
 
   if (!user.isVerified) {
-    console.log('User is not verified'); // Additional log for verification status
     throw new CustomError.UnauthenticatedError("Please verify your email");
   }
   const token = user.createJWT();
