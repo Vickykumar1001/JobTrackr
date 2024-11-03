@@ -5,70 +5,70 @@ import axios from 'axios';
 import { Logo } from '../components';
 
 function useQuery() {
-    return new URLSearchParams(useLocation().search);
+  return new URLSearchParams(useLocation().search);
 }
 
 const VerifyEmail = () => {
-    const [error, setError] = useState(false);
-    const [loading, setLoading] = useState(true);
-    const query = useQuery();
-    const navigate = useNavigate();
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const query = useQuery();
+  const navigate = useNavigate();
 
-    const verifyToken = async () => {
-        try {
-            const { data } = await axios.post('http://localhost:5000/api/v1/auth/verify-email', {
-                verificationToken: query.get('token'),
-                email: query.get('email'),
-            });
-            setLoading(false);
-        } catch (error) {
-            setError(true);
-            setLoading(false);
-        }
-    };
-
-    useEffect(() => {
-        verifyToken();
-    }, []);
-
-    if (loading) {
-        return (
-            <Wrapper>
-                <div className="content">
-                    <Logo />
-                    <h2>Loading...</h2>
-                </div>
-            </Wrapper>
-        );
+  const verifyToken = async () => {
+    try {
+      const { data } = await axios.post('/api/v1/auth/verify-email', {
+        verificationToken: query.get('token'),
+        email: query.get('email'),
+      });
+      setLoading(false);
+    } catch (error) {
+      setError(true);
+      setLoading(false);
     }
+  };
 
-    if (error) {
-        return (
-            <Wrapper>
-                <div className="content">
-                    <Logo />
-                    <h4>There was an error with verification. Please check your link or try again later.</h4>
-                    <Link to='/landing' className='btn'>
-                        Go to Homepage
-                    </Link>
-                </div>
+  useEffect(() => {
+    verifyToken();
+  }, []);
 
-            </Wrapper>
-        );
-    }
-
+  if (loading) {
     return (
-        <Wrapper>
-            <div className="content">
-                <Logo />
-                <h2>Account Verified!</h2>
-                <p>You can now log in.</p>
-                <Link to='/register' className='btn'>
-                    Go to Login
-                </Link>
-            </div>
-        </Wrapper>
+      <Wrapper>
+        <div className="content">
+          <Logo />
+          <h2>Loading...</h2>
+        </div>
+      </Wrapper>
     );
+  }
+
+  if (error) {
+    return (
+      <Wrapper>
+        <div className="content">
+          <Logo />
+          <h4>There was an error with verification. Please check your link or try again later.</h4>
+          <Link to='/landing' className='btn'>
+            Go to Homepage
+          </Link>
+        </div>
+
+      </Wrapper>
+    );
+  }
+
+  return (
+    <Wrapper>
+      <div className="content">
+        <Logo />
+        <h2>Account Verified!</h2>
+        <p>You can now log in.</p>
+        <Link to='/register' className='btn'>
+          Go to Login
+        </Link>
+      </div>
+    </Wrapper>
+  );
 };
 
 const Wrapper = styled.section`
