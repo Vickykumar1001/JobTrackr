@@ -16,7 +16,7 @@ const register = async (req, res) => {
   }
   const verificationToken = crypto.randomBytes(40).toString("hex");
   const user = await User.create({ name, email, password, location, verificationToken });
-  const origin = "http://localhost:3000";
+  const origin = "https://jobdata.onrender.com/";
   await sendVerificationEmail({
     name: user.name,
     email: user.email,
